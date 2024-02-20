@@ -3,10 +3,12 @@ package giorgiomigliaccio.Capstone_Backend.Controls;
 import giorgiomigliaccio.Capstone_Backend.Payloads.BookingCreatePayload;
 import giorgiomigliaccio.Capstone_Backend.Services.BookingServices;
 import giorgiomigliaccio.Capstone_Backend.entities.Booking;
+import giorgiomigliaccio.Capstone_Backend.entities.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 import java.time.LocalDate;
 import java.util.UUID;
@@ -31,11 +33,10 @@ public class BookingController {
         return bookingService.findById(id);
     }
 
-    @PostMapping("/{userId}")
-    @PreAuthorize("hasAnyAuthority('USER','ADMIN')")
+    @PostMapping()
     @ResponseStatus(HttpStatus.CREATED)
-    public Booking createBooking(@RequestBody BookingCreatePayload body, @PathVariable UUID userId) {
-        return bookingService.create(body, userId);
+    public Booking createBooking(@RequestBody BookingCreatePayload body, @AuthenticationPrincipal User user) {
+        return bookingService.create(body, user);
     }
 
     @PutMapping("/{id}")

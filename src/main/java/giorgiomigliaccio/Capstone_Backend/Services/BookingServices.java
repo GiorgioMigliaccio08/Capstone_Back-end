@@ -43,14 +43,14 @@ public class BookingServices {
                 .orElseThrow(() -> new NotFoundException("Prenotazione non trovata!"));
     }
 
-    public Booking create(BookingCreatePayload u, UUID userId) {
+    public Booking create(BookingCreatePayload u, User user) {
 
-        User user = userRepository.findById(userId)
+        User utente = userRepository.findById(user.getUserId())
                 .orElseThrow(() -> new NotFoundException("Utente non trovato!"));
 
 
         Booking newPrenotazione = new Booking(u.getLuogo(), u.getData(), u.getTipoVisita());
-        newPrenotazione.setUser(user);
+        newPrenotazione.setUser(utente);
         return bookingRepository.save(newPrenotazione);
     }
 

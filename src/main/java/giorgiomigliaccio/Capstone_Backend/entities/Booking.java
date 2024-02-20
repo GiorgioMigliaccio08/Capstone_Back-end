@@ -1,6 +1,7 @@
 package giorgiomigliaccio.Capstone_Backend.entities;
 
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -15,6 +16,7 @@ import java.util.UUID;
 @Setter
 @NoArgsConstructor
 @ToString
+@JsonIgnoreProperties({"user"})
 public class Booking {
     @Id
     @GeneratedValue
