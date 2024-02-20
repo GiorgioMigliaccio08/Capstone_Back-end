@@ -37,11 +37,9 @@ public class User implements UserDetails{
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinColumn(name = "user_id")
     @JsonManagedReference
-    @JsonIgnoreProperties({"users"})
     private List<Booking> prenotazioni;
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
-    @JsonIgnoreProperties("user")
     private List<Archive> documenti;
 
     public User(String nome, String cognome, String username, String email, String password) {
