@@ -44,11 +44,14 @@ public class ArchiveServices {
                 .orElseThrow(() -> new NotFoundException("Documentazione non trovata!"));
     }
 
-    public Archive create(ArchiveCreatePayload u, UUID userId) {
+    public Archive create(ArchiveCreatePayload u, User user) {
 
-        User user = userRepository.findById(userId).orElseThrow(() -> new NotFoundException("Utente non trovato!"));
+        User utente = userRepository.findById(user.getUserId())
+                .orElseThrow(() -> new NotFoundException("Utente non trovato!"));
+
+
         Archive newDocumento = new Archive(u.getLuogoVisita(), u.getDataVisitaEffettuata(), u.getDataVisitaControllo(),u.getTipoVisitaEffettuata());
-        newDocumento.setUser(user);
+        newDocumento.setUser(utente);
         return archiveRepository.save(newDocumento);
     }
 

@@ -3,10 +3,12 @@ package giorgiomigliaccio.Capstone_Backend.Controls;
 import giorgiomigliaccio.Capstone_Backend.Payloads.ArchiveCreatePayload;
 import giorgiomigliaccio.Capstone_Backend.Services.ArchiveServices;
 import giorgiomigliaccio.Capstone_Backend.entities.Archive;
+import giorgiomigliaccio.Capstone_Backend.entities.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 import java.time.LocalDate;
 import java.util.UUID;
@@ -31,11 +33,10 @@ public class ArchiveController {
         return archiveServices.findById(id);
     }
 
-    @PostMapping("/{userId}")
-    @PreAuthorize("hasAnyAuthority('USER','ADMIN')")
+    @PostMapping()
     @ResponseStatus(HttpStatus.CREATED)
-    public Archive createDocument(@RequestBody ArchiveCreatePayload body, @PathVariable UUID userId) {
-        return archiveServices.create(body, userId);
+    public Archive createDocument(@RequestBody ArchiveCreatePayload body,  @AuthenticationPrincipal User user) {
+        return archiveServices.create(body, user);
     }
 
     @PutMapping("/{id}")
