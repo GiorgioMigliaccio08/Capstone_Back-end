@@ -6,16 +6,20 @@ import giorgiomigliaccio.Capstone_Backend.Payloads.UserRegistrationPayload;
 import giorgiomigliaccio.Capstone_Backend.Repositories.UserRepository;
 import giorgiomigliaccio.Capstone_Backend.Services.BookingServices;
 import giorgiomigliaccio.Capstone_Backend.Services.UserServices;
+import giorgiomigliaccio.Capstone_Backend.entities.Archive;
+import giorgiomigliaccio.Capstone_Backend.entities.Booking;
 import giorgiomigliaccio.Capstone_Backend.entities.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.UUID;
 
 @RestController
@@ -67,5 +71,14 @@ public class UserController {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String username = authentication.getName();
         return userServices.findUserByUsername(username);
+    }
+    @GetMapping("/bookings")
+    public List <Booking> getbookings (@AuthenticationPrincipal User user){
+        return userServices.getbookingList(user);
+    }
+
+    @GetMapping("/documents")
+    public List <Archive> getdocuments (@AuthenticationPrincipal User user){
+        return userServices.getarchiveList(user);
     }
 }
