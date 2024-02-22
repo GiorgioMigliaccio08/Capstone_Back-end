@@ -4,6 +4,8 @@ import giorgiomigliaccio.Capstone_Backend.Exceptions.BadRequestException;
 import giorgiomigliaccio.Capstone_Backend.Exceptions.NotFoundException;
 import giorgiomigliaccio.Capstone_Backend.Payloads.UserRegistrationPayload;
 import giorgiomigliaccio.Capstone_Backend.Repositories.UserRepository;
+import giorgiomigliaccio.Capstone_Backend.entities.Archive;
+import giorgiomigliaccio.Capstone_Backend.entities.Booking;
 import giorgiomigliaccio.Capstone_Backend.entities.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -15,6 +17,8 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.security.crypto.bcrypt.BCrypt;
 import org.springframework.security.crypto.password.PasswordEncoder;
+
+import java.util.List;
 import java.util.UUID;
 
 @Service
@@ -94,4 +98,13 @@ public class UserServices {
         return userRepository.findByUsername(username)
                 .orElseThrow(() -> new NotFoundException("Utente corrente non trovato"));
     }
+
+    public List<Booking> getbookingList (User user){
+        return userRepository.getAllBookings(user);
+    }
+
+    public List<Archive> getarchiveList (User user){
+        return userRepository.getAllDocuments(user);
+    }
+
 }
