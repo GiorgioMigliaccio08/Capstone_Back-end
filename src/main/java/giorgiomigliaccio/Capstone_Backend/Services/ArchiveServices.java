@@ -66,6 +66,7 @@ public class ArchiveServices {
 
     public void delete(UUID id) {
         Archive found = findById(id);
+        found.setUser(null);
         archiveRepository.delete(found);
     }
 }
