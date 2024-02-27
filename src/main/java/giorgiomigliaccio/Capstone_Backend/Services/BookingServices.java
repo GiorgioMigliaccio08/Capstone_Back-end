@@ -64,6 +64,7 @@ public class BookingServices {
 
     public void delete(UUID id) {
         Booking found = findById(id);
+        found.setUser(null);
         bookingRepository.delete(found);
     }
 }
